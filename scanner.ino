@@ -13,7 +13,7 @@
 #include <Wire.h>
 #endif
 
-U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 14, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 14, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);   // inst
 
 void setup(void) {
   Serial.begin(115200);
@@ -46,11 +46,12 @@ void loop(void) {
   // Look and Feel
   const unsigned char* TitleFont = u8g2_font_NokiaSmallPlain_tr;
   const unsigned char* DetailFont  = u8g2_font_micro_tr;
+  u8g2.setFont( DetailFont ); 
 
   int pxlStart      = 15; // Title area ends 1px before this
   int titleBaseline = pxlStart - 4;
-  int pageResults   = 8;
-  int lineHeight    = 6;
+  int lineHeight    = u8g2.getMaxCharHeight() + 1;
+  int pageResults   = (int)((u8g2.getDisplayHeight() - pxlStart) / lineHeight) - 1;
 
   // WiFi Vars
   String ssid;
